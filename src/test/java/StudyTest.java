@@ -7,8 +7,10 @@ import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.aggregator.ArgumentsAggregationException;
 import org.junit.jupiter.params.aggregator.ArgumentsAggregator;
 import org.junit.jupiter.params.converter.ArgumentConversionException;
+import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.converter.SimpleArgumentConverter;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,7 +62,7 @@ class StudyTest {
     @DisplayName("Creating study")
     @ParameterizedTest(name = "{index} {displayName} - {0}")
     @CsvSource({"10, 'Java Study'", "20, 'Spring'"})
-    void parameterizedTst(@AggregateWith(StudyAggregator.class) Study study){
+    void parameterizedTest1(@AggregateWith(StudyAggregator.class) Study study){
         System.out.println(study);
     }
 
@@ -69,6 +71,13 @@ class StudyTest {
         public Object aggregateArguments(ArgumentsAccessor accessor, ParameterContext parameterContext) throws ArgumentsAggregationException {
             return new Study(accessor.getInteger(0), accessor.getString(1));
         }
+    }
+
+    @DisplayName("스터디 만들기")
+    @ParameterizedTest(name = "{index} {displayName} - {0}")
+    @ValueSource(ints = {10, 20, 40})
+    void parameterizedTest2(@ConvertWith(StudyConverter.class) Study study){
+        System.out.println(study.getLimit());
     }
 
     static class StudyConverter extends SimpleArgumentConverter{
@@ -83,10 +92,7 @@ class StudyTest {
     @Tag("fast")
     void create_condition_test() throws InterruptedException {
         Thread.sleep(1005L);
-
     }
-
-
 
     @Test
     @Tag("slow")
