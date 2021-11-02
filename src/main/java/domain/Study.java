@@ -1,3 +1,7 @@
+package domain;
+
+import study.StudyStatus;
+
 public class Study {
 
     private StudyStatus status = StudyStatus.DRAFT;
@@ -30,4 +34,7 @@ public class Study {
         return name;
     }
 
+
+    public void setOwner(Member member) {
+    }
 }

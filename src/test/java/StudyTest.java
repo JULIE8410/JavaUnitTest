@@ -1,3 +1,4 @@
+import domain.Study;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -11,6 +12,7 @@ import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.converter.SimpleArgumentConverter;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import study.StudyStatus;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -61,7 +63,7 @@ class StudyTest {
     @Order(3)
     @DisplayName("Creating study")
     @ParameterizedTest(name = "{index} {displayName} - {0}")
-    @CsvSource({"10, 'Java Study'", "20, 'Spring'"})
+    @CsvSource({"10, 'Java domain.Study'", "20, 'Spring'"})
     void parameterizedTest1(@AggregateWith(StudyAggregator.class) Study study){
         System.out.println(study);
     }
@@ -83,7 +85,7 @@ class StudyTest {
     static class StudyConverter extends SimpleArgumentConverter{
         @Override
         protected Object convert(Object source, Class<?> targetType) throws ArgumentConversionException {
-            assertEquals(Study.class, targetType, "Can only convert to Study");
+            assertEquals(Study.class, targetType, "Can only convert to domain.Study");
             return new Study(Integer.parseInt(source.toString()));        }
     }
 
@@ -114,7 +116,7 @@ class StudyTest {
 
     @Test
     @Tag("slow")
-    @DisplayName("Test - Create Study")
+    @DisplayName("Test - Create domain.Study")
     void create3(){
         Study study = new Study(10);
 
